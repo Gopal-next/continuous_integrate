@@ -1,20 +1,14 @@
-name: ci
-
-on:
-  push:
-    branches:
-      - ci
-
-jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: npm install remark-cli remark-preset-lint-consistent
+      - uses: actions/checkout@v2
 
       - name: Run markdown lint
-        run: npx remark . --use remark-preset-lint-consistent --frail
+        run: |
+          npm install remark-cli remark-preset-lint-consistent
+          npx remark . --use remark-preset-lint-consistent --frail
+
+      - uses: actions/upload-artifact@main
+        with:
+          name: remark-lint-report
+          path: public/
