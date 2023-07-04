@@ -1,4 +1,4 @@
-name: Run markdown lint
+name: ci
 
 on:
   push:
@@ -14,8 +14,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: |
-          npm install remark-cli remark-preset-lint-consistent
+        run: npm install remark-cli remark-preset-lint-consistent
 
       - name: Run markdown lint
         run: npx remark . --use remark-preset-lint-consistent --frail
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint-results
+          path: lint-results.txt
